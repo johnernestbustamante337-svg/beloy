@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Durian Garden Resort</title>
+    <style>
+        :root{
+            --accent:#6b3;
+            --accent-dark:#4a8b2a;
+            --bg:#fbf9f2;
+            --muted:#666;
+            --card:#ffffff;
+            --glass: rgba(255,255,255,0.7);
+            font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+        }
+        *{box-sizing:border-box}
+        html,body{height:100%;margin:0;background:linear-gradient(180deg,#fbf9f2 0%, #f3f6ef 100%);color:#222}
+        header{position:sticky;top:0;backdrop-filter: blur(6px);background:linear-gradient(180deg,rgba(255,255,255,0.6), rgba(255,255,255,0.45));border-bottom:1px solid rgba(0,0,0,0.05);z-index:10}
+        .container{max-width:1100px;margin:0 auto;padding:0 20px}
+        .nav{display:flex;align-items:center;justify-content:space-between;padding:14px 0}
+        .brand{display:flex;align-items:center;gap:12px;font-weight:700;color:var(--accent-dark)}
+        .brand .logo{width:44px;height:44px;border-radius:8px;background:radial-gradient(circle at 30% 30%, #ffd27a, #edb93a);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800}
+        nav ul{display:flex;gap:18px;list-style:none;margin:0;padding:0}
+        nav a{color:#1f2937;text-decoration:none;font-weight:600}
+        .btn{background:var(--accent);border:none;padding:10px 14px;border-radius:8px;color:white;font-weight:700;cursor:pointer}
+        .hero{display:grid;grid-template-columns:1fr;align-items:center;padding:40px 0}
+        .hero-inner{display:flex;gap:30px;align-items:center}
+        .hero .text{max-width:640px}
+        h1{font-size:2.1rem;margin:0 0 8px}
+        p.lead{color:var(--muted);margin:0 0 18px}
+    .facade{height:320px;border-radius:14px;overflow:hidden;box-shadow:0 8px 30px rgba(20,20,20,0.08);display:flex;align-items:flex-end;padding:18px;color:#123;position:relative}
+    .facade img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+    .facade .overlay{position:relative;z-index:1;color:var(--muted);text-shadow:0 6px 20px rgba(0,0,0,0.25)}
+    .facade .tag{background:rgba(255,255,255,0.7);padding:8px 10px;border-radius:10px;font-weight:700}
+        .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:22px}
+        .card{background:var(--card);padding:16px;border-radius:12px;box-shadow:0 6px 18px rgba(30,30,30,0.06)}
+        .restaurant .menu{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+        .dish{display:flex;gap:12px;align-items:center}
+        .dish .thumb{width:72px;height:72px;border-radius:10px;background:linear-gradient(135deg,#ffd27a,#f7b12c);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800}
+    .gallery{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+    .gallery .item{height:100px;border-radius:8px;overflow:hidden;cursor:pointer;background:#f3f3f3;display:block}
+    .gallery .item img{width:100%;height:100%;object-fit:cover;display:block}
+        footer{padding:28px 0;color:var(--muted);font-size:14px}
+
+        @media (max-width:900px){
+            .hero-inner {
+                flex-direction: column;
+                text-align: center;
+                padding: 20px 0;
+            }
+            
+            .grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .restaurant .menu {
+                grid-template-columns: 1fr;
+            }
+
+            .gallery {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .contact-wrap {
+                flex-direction: column;
+            }
+
+            nav ul {
+                display: none;
+            }
+
+            /* Show mobile menu button */
+            .mobile-menu {
+                display: block;
+            }
+        }
+        @media (max-width:600px){
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .gallery {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .facade {
+                height: 240px;
+            }
+
+            .container {
+                padding: 0 16px;
+            }
+
+            .dish {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .dish .thumb {
+                width: 100%;
+                height: 160px;
+            }
+        }
+
+        /* Ensure images are responsive */
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* small utilities */
+        .muted{color:var(--muted)}
+        .center{text-align:center}
+        .stack{display:flex;flex-direction:column;gap:8px}
+        .row{display:flex;gap:8px;align-items:center}
+        .input{padding:10px;border-radius:8px;border:1px solid #e6e6e6}
+
+        /* modal gallery */
+        .modal{position:fixed;inset:0;background:rgba(0,0,0,0.6);display:none;align-items:center;justify-content:center;padding:20px}
+        .modal .media{max-width:1000px;width:100%;max-height:90vh;border-radius:12px;overflow:hidden;background:white}
+        .modal.show{display:flex}
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container nav">
+            <div class="brand">
+                <div class="logo">DG</div>
+                <div>
+                    <div>Durian Garden</div>
+                    <div style="font-size:12px;color:var(--muted)">Resort & Restaurant</div>
+                </div>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#rooms">Rooms</a></li>
+                    <li><a href="#restaurant">Restaurant</a></li>
+                    <li><a href="#gallery">Gallery</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+            <button class="btn" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Book Now</button>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="hero">
+            <div class="hero-inner">
+                <div class="text">
+                    <h1>Durian Garden Resort — Relax among the trees</h1>
+                    <p class="lead">An intimate resort tucked into lush durian groves. Fresh local produce, a family-friendly restaurant, cozy rooms, and outdoor activities. Experience local flavors and slow living.</p>
+                    <div class="row">
+                        <button class="btn" onclick="document.getElementById('restaurant').scrollIntoView({behavior:'smooth'})">See Restaurant Menu</button>
+                        <button class="btn" style="background:transparent;color:var(--accent-dark);border:2px solid var(--accent);" onclick="document.getElementById('rooms').scrollIntoView({behavior:'smooth'})">View Rooms</button>
+                    </div>
+                </div>
+
+                <div class="facade">
+                    <img src="durianimage1.jpg" alt="Durian Garden">
+                    <div class="overlay">
+                        <div style="font-size:18px;font-weight:800">Durian Garden Resort</div>
+                        <div style="margin-top:6px;color:var(--muted)">Resort • Restaurant • Events</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid">
+                <div class="card">
+                    <h3>Comfortable Rooms</h3>
+                    <p class="muted">Private balconies, garden views, and tropical breezes. Choose between Deluxe, Suite, or Family Cottage.</p>
+                </div>
+                <div class="card">
+                    <h3>Restaurant</h3>
+                    <p class="muted">Open daily. Featuring farm-to-table dishes, durian specialties, and international comfort food.</p>
+                </div>
+                <div class="card">
+                    <h3>Activities</h3>
+                    <p class="muted">Guided grove walks, fruit tasting, bonfire nights, and kid-friendly workshops.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" style="margin-top:28px">
+            <div class="card">
+                <h2>About Durian Garden</h2>
+                <p class="muted">Durian Garden is a family-run resort built around a working durian orchard. We invite guests to unwind in spacious cottages, taste seasonal fruits, and enjoy meals made from locally sourced ingredients. Our restaurant highlights durian in creative dishes while offering a wide menu for all tastes.</p>
+            </div>
+        </section>
+
+        <section id="rooms" style="margin-top:20px">
+            <h2>Rooms & Accommodation</h2>
+            <div class="grid" style="margin-top:12px">
+                <div class="card">
+                    <h3>Deluxe Room</h3>
+                    <p class="muted">Queen bed, garden view, ensuite bathroom, free breakfast.</p>
+                    <div class="row" style="margin-top:10px"><strong>From ₱2,500/night</strong></div>
+                </div>
+                <div class="card">
+                    <h3>Family Cottage</h3>
+                    <p class="muted">Two-bedroom cottage, shared living area, ideal for families.</p>
+                    <div class="row" style="margin-top:10px"><strong>From ₱4,200/night</strong></div>
+                </div>
+                <div class="card">
+                    <h3>Garden Suite</h3>
+                    <p class="muted">Spacious suite with balcony and private garden access.</p>
+                    <div class="row" style="margin-top:10px"><strong>From ₱6,000/night</strong></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="restaurant" style="margin-top:22px" class="restaurant">
+            <h2>Restaurant</h2>
+            <div class="card">
+                <p class="muted">Our kitchen uses orchard fruit and local produce. Enjoy breakfast, lunch, dinner, and durian-themed specialties crafted by our chef.</p>
+                <div style="margin-top:12px" class="menu">
+                    <div class="dish">
+                        <div class="thumb">
+                            <img src="durianpancake.jpg" alt="Durian Pancakes" style="width:100%;height:100%;object-fit:cover;border-radius:8px;display:block">
+                        </div>
+                        <div>
+                            <div style="font-weight:700">Durian Pancakes</div>
+                            <div class="muted">Sweet durian compote, mascarpone, local honey — ₱250</div>
+                        </div>
+                    </div>
+                    <div class="dish">
+                        <div class="thumb">
+                            <img src="mango-salad-0715.jpg" alt="Grilled Mango & Durian Salad" style="width:100%;height:100%;object-fit:cover;border-radius:8px;display:block">
+                        </div>
+                        <div>
+                            <div style="font-weight:700">Grilled Mango & Durian Salad</div>
+                            <div class="muted">Mixed greens, citrus vinaigrette — ₱320</div>
+                        </div>
+                    </div>
+                    <div class="dish">
+                        <div class="thumb">
+                            <img src="curry.jpg" alt="Coconut Seafood Curry" style="width:100%;height:100%;object-fit:cover;border-radius:8px;display:block">
+                        </div>
+                        <div>
+                            <div style="font-weight:700">Coconut Seafood Curry</div>
+                            <div class="muted">Local catch simmered in coconut curry — ₱420</div>
+                        </div>
+                    </div>
+                    <div class="dish">
+                        <div class="thumb">
+                            <img src="durian icecream.jpg" alt="Durian Ice Cream (House)" style="width:100%;height:100%;object-fit:cover;border-radius:8px;display:block">
+                        </div>
+                        <div>
+                            <div style="font-weight:700">Durian Ice Cream (House)</div>
+                            <div class="muted">Made daily from orchard fruit — ₱120</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="gallery" style="margin-top:22px">
+            <h2>Gallery</h2>
+            <div class="gallery" style="margin-top:10px">
+                <div class="item" onclick="openGallery(0)"><img src="gallerydurian.jpg" alt="Gallery 1"></div>
+                <div class="item" onclick="openGallery(1)"><img src="gallerdurian2.jpg" alt="Gallery 2"></div>
+                <div class="item" onclick="openGallery(2)"><img src="gellerydurian3.jpg" alt="Gallery 3"></div>
+                <div class="item" onclick="openGallery(3)"><img src="gallerydurian4.jpg" alt="Gallery 4"></div>
+            </div>
+        </section>
+
+        <section id="contact" style="margin-top:22px">
+            <h2>Contact & Reservations</h2>
+            <div class="card" style="display:flex;gap:18px;flex-wrap:wrap">
+                <div style="flex:1;min-width:260px">
+                    <div class="stack">
+                        <label>Name</label>
+                        <input class="input" id="name" placeholder="Your full name">
+                        <label>Email</label>
+                        <input class="input" id="email" placeholder="you@example.com">
+                        <label>Phone</label>
+                        <input class="input" id="phone" placeholder="+63 9XX XXX XXXX">
+                        <label>Payment method</label>
+                        <select class="input" id="paymentMethod" style="padding:10px;border-radius:8px;">
+                            <option value="none">Pay at resort / None</option>
+                            <option value="gcash">GCash</option>
+                            <option value="paymaya">PayMaya</option>
+                        </select>
+                        <label>Reference number</label>
+                        <input class="input" id="paymentRef" placeholder="Transaction / reference number" disabled>
+                        <label>Message / Requests</label>
+                        <textarea class="input" id="message" rows="4" placeholder="Tell us your preferred dates, room type, and any requests"></textarea>
+                        <div class="row">
+                            <button class="btn" onclick="submitReservation()">Send Reservation Request</button>
+                            <div class="muted" style="font-size:13px;margin-left:6px">We'll reply within 24 hours</div>
+                        </div>
+                    </div>
+                </div>
+                <div style="flex:1;min-width:240px">
+                    <div class="muted"><strong>Address:</strong> Durian Garden Resort, Polomolok, South Cot, Philippines</div>
+                    <div class="muted" style="margin-top:8px"><strong>Phone:</strong> +63 948 619 6532</div>
+                    <div class="muted" style="margin-top:8px"><strong>Hours:</strong> Daily 7:00–21:00</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container center">
+            <div class="muted">© <span id="year"></span> Durian Garden Resort — All rights reserved</div>
+        </div>
+    </footer>
+
+    <div id="modal" class="modal" onclick="closeGallery()">
+        <div class="media" onclick="event.stopPropagation()" id="modalMedia">
+            <!-- image will be injected here -->
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        function submitReservation(){
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const paymentMethod = document.getElementById('paymentMethod').value;
+            const paymentRef = document.getElementById('paymentRef').value.trim();
+            const message = document.getElementById('message').value.trim();
+            if(!name || !email){
+                alert('Please enter your name and email so we can contact you.');
+                return;
+            }
+            if(paymentMethod !== 'none' && !paymentRef){
+                alert('Please enter the reference/transaction number for your payment.');
+                return;
+            }
+            // Save to localStorage (demo). Replace with server POST in production.
+            const reservation = { name, email, phone, paymentMethod, paymentRef, message, time: new Date().toISOString() };
+            const existing = JSON.parse(localStorage.getItem('reservations') || '[]');
+            existing.unshift(reservation);
+            localStorage.setItem('reservations', JSON.stringify(existing.slice(0,50)));
+            // confirmation message
+            if(paymentMethod === 'none'){
+                alert(`Reservation request sent. Thank you, ${name}. We will contact you soon.`);
+            } else {
+                alert(`Reservation request sent. Payment via ${paymentMethod.toUpperCase()} recorded (ref: ${paymentRef}). Thank you, ${name}.`);
+            }
+            document.getElementById('name').value = '';
+            document.getElementById('email').value = '';
+            document.getElementById('phone').value = '';
+            document.getElementById('paymentMethod').value = 'none';
+            document.getElementById('paymentRef').value = '';
+            document.getElementById('paymentRef').disabled = true;
+            document.getElementById('message').value = '';
+        }
+
+        // enable/disable reference input depending on selected payment method
+        const paymentMethodEl = document.getElementById('paymentMethod');
+        const paymentRefEl = document.getElementById('paymentRef');
+        if (paymentMethodEl && paymentRefEl) {
+            paymentMethodEl.addEventListener('change', function (e) {
+                if (e.target.value === 'none') {
+                    paymentRefEl.value = '';
+                    paymentRefEl.disabled = true;
+                } else {
+                    paymentRefEl.disabled = false;
+                    paymentRefEl.focus();
+                }
+            });
+        }
+
+        const galleryFiles = ['gallerydurian.jpg','gallerdurian2.jpg','gellerydurian3.jpg','gallerydurian4.jpg'];
+        function openGallery(i){
+            const modal = document.getElementById('modal');
+            const media = document.getElementById('modalMedia');
+            const file = galleryFiles[i] || galleryFiles[0];
+            media.innerHTML = `<img src="${file}" alt="Gallery photo ${i+1}" style="width:100%;height:70vh;object-fit:contain;background:#000">`;
+            modal.classList.add('show');
+        }
+        function closeGallery(){
+            const modal = document.getElementById('modal');
+            modal.classList.remove('show');
+        }
+    </script>
+</body>
+</html>
